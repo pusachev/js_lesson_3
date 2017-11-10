@@ -6,5 +6,5 @@
 const util = require("./index").util;
 
 module.exports = function (string) {
-    console.log("Your ucfirst string is `%s`\n\n", util.ucfirst(string));
+    console.log("Number `%d`\n\n", Number(util.parseNumber(string)));
 };

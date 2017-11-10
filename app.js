@@ -5,9 +5,9 @@
 
 const readline = require("readline-sync");
 
-var userInput;
+var userInput = null;
 
-while (userInput != '0') {
+while (userInput != 0) {
 
     console.log(getMessage());
     userInput = getUserChoice();
@@ -25,16 +25,23 @@ while (userInput != '0') {
             require('./functions/ucfirst')(getString());
             break;
         case 4:
-            require('./functions/ucfirstall')(getString());
+            require('./functions/ucwords')(getString());
             break;
         case 5:
             require('./functions/invers')(getString());
             break;
         case 6:
-            require('./functions/replace')(getString());
+            var string = getString();
+            var from = readline.question("Please enter a character to be replaced: ");
+            var to = readline.question("Please enter a char which will replaced: ");
+
+            require('./functions/replace')(string, from, to);
             break;
         case 7:
-            require('./functions/parce-number')(getString());
+            require('./functions/parse-number')(getString());
+            break;
+        case 8:
+            require('./functions/reverse')(getString());
             break;
         default:
             console.log("Invalid input");
@@ -49,12 +56,13 @@ function getMessage()
     return "Please choose next functions:\n" +
            "(1) string to upper case\n" +
            "(2) string to lower case\n" +
-           "(3) string to upper case first letter first word\n" +
-           "(4) string to upper case first letter in all words\n" +
+           "(3) ucfirst string\n" +
+           "(4) ucwords string\n" +
            "(5) string inverse case\n" +
            "(6) replace character in string\n" +
            "(7) convert string to int\n" +
-           "(0) exit";
+           "(8) reverse string\n" +
+           "(0) exit\n";
 }
 
 function getUserChoice()
