@@ -93,34 +93,43 @@ var util = {
         var result = '';
 
         for (var i = 0; i < string.length; i++) {
-            result += (string[i] === fromChar) ? toChar : string[i];
+            result += (string[i] === fromChar[0]) ? toChar[0] : string[i];
         }
 
         return result;
     },
     "parseNumber": function (string) {
-        var pointInString = false;
-        var result = '';
+        var isNegative = false;
+        var result = 0;
+        var isPoint = false;
+        var numberAfterPoint = 0;
 
-        for (var i=0; i < string.length; i++) {
+        for (var i=0; i < string.length; i++ ) {
+            var chrCode = util.ord(string[i]);
 
-            var charCode = this.ord(string[i]);
-
-            if (this.isNumber(charCode)) {
-                result += string[i];
-            } else if((charCode === this.specialSymbolCharCode.plus || charCode === this.specialSymbolCharCode.minus) && i === 0 ) {
-                result += string[i];
-            } else if (charCode === this.specialSymbolCharCode.point && !pointInString) {
-                result += string[i];
-                pointInString = true;
-            } else {
+            if (chrCode === util.specialSymbolCharCode.minus) {
+                isNegative = true;
                 continue;
             }
+
+            if (chrCode === util.specialSymbolCharCode.point) {
+                isPoint = true;
+                continue;
+            }
+
+            if (chrCode < util.numberRange.from || chrCode > util.numberRange.to) {
+                continue;
+            }
+
+            if (isPoint) {
+                numberAfterPoint++;
+            }
+
+            result = result * 10 + chrCode - this.numberRange.from;
         }
 
-        if (result.length === 0) {
-            result = 0;
-        }
+        result = isNegative ? result * -1: result;
+        result = isPoint ? result / Math.pow(10, numberAfterPoint): result;
 
         return result;
     },

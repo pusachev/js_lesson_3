@@ -6,5 +6,5 @@
 const util = require("./index").util;
 
 module.exports = function (string) {
-    console.log("Number `%d`\n\n", Number(util.parseNumber(string)));
+    console.log("Number `%d`\n\n", util.parseNumber(string));
 };
